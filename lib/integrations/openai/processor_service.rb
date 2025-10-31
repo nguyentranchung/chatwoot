@@ -44,6 +44,14 @@ class Integrations::Openai::ProcessorService < Integrations::OpenaiBaseService
                                       "#{LANGUAGE_INSTRUCTION}"))
   end
 
+  def to_en_message
+    make_api_call(build_api_call_body("#{AGENT_INSTRUCTION} Please translate the following message into English. Use a friendly and conversational tone, as if you’re talking to a peer. Correct any grammar mistakes and expand the ideas naturally if the original message is written in keywords or incomplete sentences."))
+  end
+
+  def to_vi_message
+    make_api_call(build_api_call_body("#{AGENT_INSTRUCTION} Please translate the following message into Vietnamese. Use a friendly and conversational tone, as if you’re talking to a peer. Correct any grammar mistakes and expand the ideas naturally if the original message is written in keywords or incomplete sentences."))
+  end
+
   private
 
   def prompt_from_file(file_name, enterprise: false)

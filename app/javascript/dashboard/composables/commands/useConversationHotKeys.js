@@ -102,6 +102,16 @@ const createNonDraftMessageAIAssistActions = (t, replyMode) => {
 const createDraftMessageAIAssistActions = t => {
   return [
     {
+      label: 'To English',
+      key: 'to_en',
+      icon: ICON_AI_ASSIST,
+    },
+    {
+      label: 'To Vietnamese',
+      key: 'to_vi',
+      icon: ICON_AI_ASSIST,
+    },
+    {
       label: t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.REPHRASE'),
       key: 'rephrase',
       icon: ICON_AI_ASSIST,

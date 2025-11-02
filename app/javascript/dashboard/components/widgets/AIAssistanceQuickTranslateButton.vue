@@ -98,7 +98,7 @@ export default {
 <template>
   <NextButton
     v-tooltip.top-end="'Translate to English'"
-    icon="i-hugeicons-translate"
+    icon="i-ph-translate-duotone"
     slate
     faded
     sm

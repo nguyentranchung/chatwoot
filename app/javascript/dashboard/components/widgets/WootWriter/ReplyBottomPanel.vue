@@ -1,6 +1,7 @@
 <script>
 import { ref } from 'vue';
 import { useUISettings } from 'dashboard/composables/useUISettings';
+import { useAI } from 'dashboard/composables/useAI';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import FileUpload from 'vue-upload-component';
 import * as ActiveStorage from 'activestorage';
@@ -10,13 +11,20 @@ import { getAllowedFileTypesByChannel } from '@chatwoot/utils';
 import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
 import VideoCallButton from '../VideoCallButton.vue';
 import AIAssistanceButton from '../AIAssistanceButton.vue';
+import AIAssistanceQuickTranslateButton from '../AIAssistanceQuickTranslateButton.vue';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import { mapGetters } from 'vuex';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   name: 'ReplyBottomPanel',
-  components: { NextButton, FileUpload, VideoCallButton, AIAssistanceButton },
+  components: {
+    NextButton,
+    FileUpload,
+    VideoCallButton,
+    AIAssistanceButton,
+    AIAssistanceQuickTranslateButton,
+  },
   mixins: [inboxMixin],
   props: {
     isNote: {
@@ -136,6 +144,8 @@ export default {
     'toggleQuotedReply',
   ],
   setup() {
+    const { draftMessage } = useAI();
+
     const { setSignatureFlagForInbox, fetchSignatureFlagFromUISettings } =
       useUISettings();
 
@@ -163,6 +173,7 @@ export default {
       setSignatureFlagForInbox,
       fetchSignatureFlagFromUISettings,
       uploadRef,
+      draftMessage,
     };
   },
   data() {
@@ -387,6 +398,13 @@ export default {
       />
       <AIAssistanceButton
         v-if="!isFetchingAppIntegrations"
+        :conversation-id="conversationId"
+        :is-private-note="isOnPrivateNote"
+        :message="message"
+        @replace-text="replaceText"
+      />
+      <AIAssistanceQuickTranslateButton
+        v-if="draftMessage"
         :conversation-id="conversationId"
         :is-private-note="isOnPrivateNote"
         :message="message"
